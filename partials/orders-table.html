@@ -8,6 +8,10 @@
 
     <!--// listing for larger screens-->
 
+    <div class="alert alert-success col-md-6" ng-show="updateMessage">
+       {{updateMessage}}
+    </div>
+
     <table class="table table-responsive table-striped table-hover hidden-xs hidden-sm">
         <thead>
            <tr>
@@ -27,7 +31,10 @@
             <td>{{order.customer.name}}</td>
             <td>{{order.amount}}</td>
 
-            <td>{{order.state}}</td>
+            <td >
+                <span ng-hide="showList" style="cursor:pointer" ng-click="showList = !showList"><i style="margin:0 4px;font-size:10px;" class="glyphicon glyphicon-edit
+"></i> {{order.state}} </span>
+                <select  style="color:#000000" ng-show="showList" ng-model="order.state" ng-change="showList=!showList;orders.updateStatus(order)"> <option value="ACCEPTED">ACCEPTED</option> <option value="DISPATCHED">DISPATCHED</option> <option value="DELIVERED">DELIVERED</option></select> </td>
             <td> <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#detailsModal" ng-mousedown="orders.getDetails(order)">View Details</button></td>
         </tr>
         </tbody>
@@ -85,9 +92,10 @@
 
                     <div class="col-md-5 col-lg-5 col-xs-12 col-sm-12">
                         <div class="col-md-12">
+
+
+
                             <h3>Customer Details</h3>
-
-
                         </div>
                         <div class="col-md-12">
                           <h4> Name:</h4>
@@ -102,6 +110,14 @@
                             <h5>{{ orders.activeOrder.customer.address}}</h5>
                         </div>
 
+
+                        <div class="visible-xs visible-sm">
+                        <h3>Update Status</h3>
+                        <span ng-hide="showList" style="cursor:pointer" ng-click="showList = !showList"><i style="margin:0 4px;font-size:10px;" class="glyphicon glyphicon-edit
+"></i> {{orders.activeOrder.state}} </span>
+                        <select  style="color:#000000" ng-show="showList" ng-model="orders.activeOrder.state" ng-change="showList=!showList;orders.updateStatus(orders.activeOrder)"> <option value="ACCEPTED">ACCEPTED</option> <option value="DISPATCHED">DISPATCHED</option> <option value="DELIVERED">DELIVERED</option></select>
+
+                            </div>
                     </div>
 
                     </div>

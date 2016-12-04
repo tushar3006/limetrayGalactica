@@ -19,7 +19,7 @@ limeTrayApp.directive('scroll', function () {
         },
         controller: function($http, $scope, $timeout) {
 
-            var orders = $scope.orders = {list: [], getOrders: getOrders, getDetails: getDetails, activeOrder: {}}
+            var orders = $scope.orders = {list: [], getOrders: getOrders, getDetails: getDetails, activeOrder: {} ,updateStatus : updateOrderStatus}
             var map;
 
             $("#detailsModal").on("shown.bs.modal", function () {
@@ -57,6 +57,18 @@ limeTrayApp.directive('scroll', function () {
 
                 $http.post('/getOrders', {start: start, end: end}).then(function (response) {
                     orders.list = orders.list.concat(response.data);
+                });
+            }
+
+            function updateOrderStatus(order){
+                $http.post('/updateOrdersStatus',order).then(function (response) {
+
+                    $scope.updateMessage = response.data.message;
+                    setTimeout(function(){
+                        $scope.updateMessage = '';
+                        $scope.$digest();
+                    },2000)
+
                 });
             }
 
