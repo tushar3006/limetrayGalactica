@@ -1,0 +1,16 @@
+{
+  "name": "limetray",
+  "version": "1.0.0",
+  "description": "Inter galactic delivery Mvp",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "angular": "^1.5.9",
+    "angular-mocks": "^1.5.9",
+    "angular-route": "^1.5.9"
+  }
+}
