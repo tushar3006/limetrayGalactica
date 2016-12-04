@@ -1,4 +1,4 @@
-var mockApi = angular.module('myAppE2E', ['ngMockE2E']);
+var mockApi = angular.module('mockApi', ['ngMockE2E']);
 
  mockApi.run(function ($httpBackend, $http) {
     $httpBackend.expectPOST('/getOrders').respond(function (method, url, data) {

@@ -1,5 +1,5 @@
 
-var limeTrayApp = angular.module('limetray', ['myAppE2E']);
+var limeTrayApp = angular.module('limetray', ['mockApi']);
 
 
 limeTrayApp.directive('scroll', function () {
