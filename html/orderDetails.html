@@ -1,0 +1,55 @@
+<div class="container" ng-controller="OrderDetailsController">
+    <div class="panel">
+
+        <!-- Modal content-->
+
+        <div class="panel-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="modal-title text-center">
+                <h4>Order Details:</h4>
+                <div> {{orderData.orderId}}</div>
+            </div>
+        </div>
+        <div class="panel-body" style="height:400px">
+            <div class="col-md-7 col-lg-7 col-xs-12 col-sm-12" style="height:100%;" id="map">
+            </div>
+
+            <div class="col-md-5 col-lg-5 col-xs-12 col-sm-12">
+                <div class="col-md-12">
+
+
+                    <h3>Customer Details</h3>
+                </div>
+                <div class="col-md-12">
+                    <h4> Name:</h4>
+                    <h5>{{orderData.customer.name}}</h5>
+                </div>
+                <div class="col-md-12">
+                    <h4>Phone: </h4>
+                    <h5>{{orderData.customer.phone}}</h5>
+                </div>
+                <div class="col-md-12">
+                    <h4>Address:</h4>
+                    <h5>{{ orderData.customer.address}}</h5>
+                </div>
+
+
+                <div class="visible-xs visible-sm">
+                    <h3>Update Status</h3>
+                        <span ng-hide="showList" style="cursor:pointer" ><i
+                                style="margin:0 4px;font-size:10px;"></i> {{orderData.state}} </span>
+                    <!--<select style="color:#000000" ng-show="showList" ng-model="orderData.state"-->
+                            <!--ng-change="showList=!showList;orders.updateStatus(orderData)">-->
+                        <!--<option value="ACCEPTED">ACCEPTED</option>-->
+                        <!--<option value="DISPATCHED">DISPATCHED</option>-->
+                        <!--<option value="DELIVERED">DELIVERED</option>-->
+                    <!--</select>-->
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+

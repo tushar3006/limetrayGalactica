@@ -6,22 +6,31 @@
     <link rel="stylesheet" type="text/css" href="css/app.css">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 
+
+
 </head>
 
 <body ng-app="limetray">
 
 <!--// Orders Data Directive-->
-<div class="scroll" style="height:100%;overflow:scroll"></div>
+
+
+<div ui-view></div>
+
 
 
 <script src="node_modules/angular/angular.min.js"></script>
 <script src="node_modules/jquery/dist/jquery.min.js"></script>
 <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="node_modules/angular-route/angular-route.min.js"></script>
-<script src="node_modules/angular-mocks/angular-mocks.js"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtjltOjLSpHNM8MYzmHTOgvLbjeHASCqU"></script>
+<!--<script src="node_modules/angular-ui-router/angular-route.min.js"></script>-->
+<script src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtjltOjLSpHNM8MYzmHTOgvLbjeHASCqU"></script>
 <script src="js/mock.js"></script>
 <script src="js/limetray.js"></script>
+<script src="js/controllers/orderDetailsController.js"></script>
+<script src="js/services/orderService.js"></script>
+
 
 </body>
 

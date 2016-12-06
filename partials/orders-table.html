@@ -1,6 +1,4 @@
-<div class="container-fluid" >
-
-
+<div class="container-fluid">
 
 
     <h2 class="text-center main-header">LimeTray Galactica</h2>
@@ -8,20 +6,35 @@
 
     <!--// listing for larger screens-->
 
-    <div class="alert alert-success col-md-6" ng-show="updateMessage">
-       {{updateMessage}}
+    <div class="col-md-6">
+        <span class="alert alert-success" ng-show="updateMessage">{{updateMessage}}</span>
     </div>
+
+    <div class="col-md-2">
+        <select style="color:#000000" ng-init="state = ''" ng-model="state" class="form-control"
+                ng-change="orders.getOrders('','','',state)">
+            <option value="">ALL</option>
+            <option value="ACCEPTED">ACCEPTED</option>
+            <option value="DISPATCHED">DISPATCHED</option>
+            <option value="DELIVERED">DELIVERED</option>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <input type="text" class="form-control" placeholder="Search Address, Order Id Or Name" ng-model="search"
+               ng-change="orders.getOrders(0,50,search)">
+    </div>
+
 
     <table class="table table-responsive table-striped table-hover hidden-xs hidden-sm">
         <thead>
-           <tr>
-               <th>ORDER ID</th>
-               <th>CREATED AT</th>
-               <th>CUSTOMER</th>
-               <th>AMOUNT</th>
-               <th>STATE</th>
-               <th>ACTION</th>
-           </tr>
+        <tr>
+            <th>ORDER ID</th>
+            <th>CREATED AT</th>
+            <th>CUSTOMER</th>
+            <th>AMOUNT</th>
+            <th>STATE</th>
+            <th>ACTION</th>
+        </tr>
         </thead>
         <tbody>
 
@@ -31,11 +44,21 @@
             <td>{{order.customer.name}}</td>
             <td>{{order.amount}}</td>
 
-            <td >
-                <span ng-hide="showList" style="cursor:pointer" ng-click="showList = !showList"><i style="margin:0 4px;font-size:10px;" class="glyphicon glyphicon-edit
+            <td>
+                <span ng-hide="showList" style="cursor:pointer" ng-click="showList = !showList"><i
+                        style="margin:0 4px;font-size:10px;" class="glyphicon glyphicon-edit
 "></i> {{order.state}} </span>
-                <select  style="color:#000000" ng-show="showList" ng-model="order.state" ng-change="showList=!showList;orders.updateStatus(order)"> <option value="ACCEPTED">ACCEPTED</option> <option value="DISPATCHED">DISPATCHED</option> <option value="DELIVERED">DELIVERED</option></select> </td>
-            <td> <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#detailsModal" ng-mousedown="orders.getDetails(order)">View Details</button></td>
+                <select style="color:#000000" ng-show="showList" ng-model="order.state"
+                        ng-change="showList=!showList;orders.updateStatus(order)">
+                    <option value="ACCEPTED">ACCEPTED</option>
+                    <option value="DISPATCHED">DISPATCHED</option>
+                    <option value="DELIVERED">DELIVERED</option>
+                </select></td>
+            <td>
+                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#detailsModal"
+                        ng-mousedown="orders.getDetails(order)">View Details
+                </button>
+            </td>
         </tr>
         </tbody>
     </table>
@@ -44,9 +67,11 @@
     <!--//listing for mobile-->
     <div class="visible-xs visible-sm">
         <div class="row mobile-card" ng-repeat="order in orders.list">
-            <div class="col-sm-12 text-center" >
+            <div class="col-sm-12 text-center">
 
-                <div class="col-md-12 text-right "><span class="label label-default" ng-class="{'bg-green': order.state == 'DELIVERED', 'bg-orange': order.state == 'DISPATCHED'}">{{order.state}}</span></div>
+                <div class="col-md-12 text-right "><span class="label label-default"
+                                                         ng-class="{'bg-green': order.state == 'DELIVERED', 'bg-orange': order.state == 'DISPATCHED'}">{{order.state}}</span>
+                </div>
                 <div class="col-sm-12 col-xs-12 text-left">
                     Order Id: {{order.orderId}}
                 </div>
@@ -60,10 +85,10 @@
                 <div class="col-sm-12 col-xs-12 ">
 
                     <div class="text-left col-xs-6 col-sm-6" style="padding:0">Amount: {{order.amount}}</div>
-                    <div class="text-right" data-toggle="modal" data-target="#detailsModal" ng-click="orders.getDetails(order)">
+                    <div class="text-right" data-toggle="modal" data-target="#detailsModal"
+                         ng-click="orders.getDetails(order)">
                         <button class="btn btn-sm btn-default">Fetch Details</button>
                     </div>
-
 
 
                 </div>
@@ -74,60 +99,8 @@
     </div>
 
     <!--Order Details Modal -->
-    <div class="modal fade" id="detailsModal" role="dialog">
-        <div class="modal-dialog">
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <div class="modal-title">
-                        <div >Order Details: </div>
-                        <div > {{orders.activeOrder.orderId}}</div>
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <div class="col-md-7 col-lg-7 col-xs-12 col-sm-12" style="height:100%;" id="map">
-                    </div>
-
-                    <div class="col-md-5 col-lg-5 col-xs-12 col-sm-12">
-                        <div class="col-md-12">
-
-
-
-                            <h3>Customer Details</h3>
-                        </div>
-                        <div class="col-md-12">
-                          <h4> Name:</h4>
-                            <h5>{{orders.activeOrder.customer.name}}</h5>
-                        </div>
-                        <div class="col-md-12">
-                            <h4>Phone: </h4>
-                            <h5>{{orders.activeOrder.customer.phone}}</h5>
-                        </div>
-                        <div class="col-md-12">
-                            <h4>Address:</h4>
-                            <h5>{{ orders.activeOrder.customer.address}}</h5>
-                        </div>
-
-
-                        <div class="visible-xs visible-sm">
-                        <h3>Update Status</h3>
-                        <span ng-hide="showList" style="cursor:pointer" ng-click="showList = !showList"><i style="margin:0 4px;font-size:10px;" class="glyphicon glyphicon-edit
-"></i> {{orders.activeOrder.state}} </span>
-                        <select  style="color:#000000" ng-show="showList" ng-model="orders.activeOrder.state" ng-change="showList=!showList;orders.updateStatus(orders.activeOrder)"> <option value="ACCEPTED">ACCEPTED</option> <option value="DISPATCHED">DISPATCHED</option> <option value="DELIVERED">DELIVERED</option></select>
-
-                            </div>
-                    </div>
-
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-
+</div>
 
 
 </div>

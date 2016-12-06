@@ -28,7 +28,7 @@ var mockApi = angular.module('mockApi', ['ngMockE2E']);
         });
     });
 
-
+     $httpBackend.whenPOST('/getOrders').passThrough();
     $httpBackend.whenGET('data.json').passThrough();
     $httpBackend.whenGET('partials/orders-table.html').passThrough();
 

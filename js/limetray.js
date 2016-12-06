@@ -1,5 +1,24 @@
+var limeTrayApp = angular.module('limetray', ['ui.router']);
 
-var limeTrayApp = angular.module('limetray', ['mockApi']);
+limeTrayApp.config(function($stateProvider, $urlRouterProvider) {
+
+    $urlRouterProvider.otherwise('/orders');
+
+    $stateProvider
+
+    // HOME STATES AND NESTED VIEWS ========================================
+        .state('orders', {
+            url: '/orders',
+            templateUrl: 'html/orders.html'
+        })
+
+        // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
+        .state('orderDetails', {
+            url: '/details/:orderId',
+            templateUrl: 'html/orderDetails.html'
+        });
+
+});
 
 
 limeTrayApp.directive('scroll', function () {
@@ -17,9 +36,15 @@ limeTrayApp.directive('scroll', function () {
                     scope.orders.getOrders(scope.orders.list.length, scope.orders.list.length + 30)
             })
         },
-        controller: function($http, $scope, $timeout) {
+        controller: function ($http, $scope, $timeout , ordersData,$state) {
 
-            var orders = $scope.orders = {list: [], getOrders: getOrders, getDetails: getDetails, activeOrder: {} ,updateStatus : updateOrderStatus}
+            var orders = $scope.orders = {
+                list: [],
+                getOrders: getOrders,
+                getDetails: getDetails,
+                activeOrder: {},
+                updateStatus: updateOrderStatus
+            }
             var map;
 
             $("#detailsModal").on("shown.bs.modal", function () {
@@ -27,52 +52,41 @@ limeTrayApp.directive('scroll', function () {
                 initMap(orders.activeOrder);
             });
 
-            function initMap(order) {
 
-                var myLatlng = {lat: order.customer.latitude, lng: order.customer.longitude};
-
-                map = new google.maps.Map(document.getElementById('map'), {
-                    zoom: 10,
-                    center: {lat: order.customer.latitude, lng: order.customer.longitude}
-                });
-
-                var marker = new google.maps.Marker({
-                    position: myLatlng,
-                    map: map,
-                    title: 'Click to zoom'
-                });
-
-            }
 
 
             function getDetails(order) {
-
-                this.activeOrder = order;
-                initMap(order);
+                //$scope.$emit('orderData',order);
+                $state.go('orderDetails',{orderId:order.orderId})
             }
 
 
-            function getOrders(start, end) {
+            function getOrders(start, end, search) {
 
+                ordersData.fetchOrders(search,start,end,$scope.state).then(function (response) {
 
-                $http.post('/getOrders', {start: start, end: end}).then(function (response) {
-                    orders.list = orders.list.concat(response.data);
-                });
+                        if (!search && start && end)
+                            orders.list = orders.list.concat(response.data);
+                        else
+                            orders.list = response.data;
+                    })
+
             }
 
-            function updateOrderStatus(order){
-                $http.post('/updateOrdersStatus',order).then(function (response) {
+            function updateOrderStatus(order) {
+
+                ordersData.updateStatus(order).then(function (response) {
 
                     $scope.updateMessage = response.data.message;
-                    setTimeout(function(){
+                    setTimeout(function () {
                         $scope.updateMessage = '';
                         $scope.$digest();
-                    },2000)
+                    }, 2000)
 
                 });
             }
 
-            orders.getOrders(orders.list.length, orders.list.length + 50);
+            orders.getOrders(orders.list.length, orders.list.length + 50, '', '');
 
 
         }
